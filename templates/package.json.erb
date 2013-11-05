@@ -1,0 +1,35 @@
+{
+  "name": "hosted-hubot",
+  "version": "2.6.3",
+
+  "author": "GitHub Inc.",
+
+  "keywords": [
+    "github",
+    "hubot",
+    "campfire",
+    "bot"
+  ],
+
+  "description": "A simple helpful robot for your Company",
+
+  "licenses": [{
+    "type": "MIT",
+    "url": "https://github.com/github/hubot/raw/master/LICENSE"
+  }],
+
+  "repository" : {
+    "type": "git",
+    "url": "https://github.com/github/hubot.git"
+  },
+
+  "dependencies": {
+    <% # Support for ruby 1.8.7 - hashes are not ordered -%>
+    <%= @dependencies.sort.map{|k,v| "#{k.inspect}: #{v.inspect}"}.join(",\n    ") %>
+  },
+
+  "engines": {
+    "node": ">= 0.8.x",
+    "npm":  ">= 1.1.x"
+  }
+}

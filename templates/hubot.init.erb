@@ -1,0 +1,80 @@
+#!/bin/bash
+# hubot
+# chkconfig: 345 20 80
+# description: hubot
+# processname: hubot
+
+# This file is managed by puppet - do not modify
+
+. /etc/init.d/functions
+
+ROOT_DIR="<%= scope.lookupvar('hubot::root_dir') %>/<%= scope.lookupvar('hubot::bot_name') %>"
+DAEMON=bin/hubot
+ADAPTER="<%= scope.lookupvar('hubot::adapter') %>"
+LOG_FILE="<%= scope.lookupvar('hubot::log_file_real') %>"
+USER=hubot
+DISPLAY_NAME="<%= scope.lookupvar('hubot::display_name') %>"
+PIDFILE=/var/run/hubot.pid
+
+startHubot() {
+  echo -n $"Starting hubot (${DISPLAY_NAME}): "
+  runuser -l $USER -c "source $ROOT_DIR/hubot.env && cd $ROOT_DIR; $DAEMON -a $ADAPTER" >> $LOG_FILE 2>&1 &
+  sleep 3
+  PID=$(ps aux | grep node | head -1 | awk '{print $2}')
+
+  if [ -z $PID ]; then
+    echo_failure ; echo
+  else
+    echo $PID > $PIDFILE
+    echo_success ; echo
+  fi
+}
+
+stopHubot() {
+	echo -n $"Stopping hubot (${DISPLAY_NAME}): "
+  PID=`cat ${PIDFILE}`
+  if [ -f $PIDFILE ]; then
+    kill $PID
+    echo_success ; echo
+    rm -f $PIDFILE
+  else
+    echo $"hubot (${DISPLAY_NAME}) failed to start"
+    return 3
+  fi
+}
+
+hubotStatus() {
+	echo -n $"Status hubot (${DISPLAY_NAME}): "
+  if [ -f $PIDFILE ]; then
+    PID=`cat ${PIDFILE}`
+    if [ -z "`ps axf | grep ${PID} | grep -v grep`" ]; then
+      echo $"hubot dead but pid file exists"
+      return 1
+    else
+      echo $"hubot (pid ${PIDFILE}) is running..."
+      return 0
+    fi
+  else
+    echo $"hubot is stopped"
+    return 3
+  fi
+}
+
+case "$1" in
+start)
+  startHubot
+  ;;
+status)
+  hubotStatus
+  ;;
+stop)
+  stopHubot
+  ;;
+restart)
+  stopHubot
+  startHubot
+  ;;
+*)
+  echo "Usage: $0 {status|start|stop|restart}"
+  exit 1
+esac
