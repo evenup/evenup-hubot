@@ -1,16 +1,33 @@
+# == Class: hubot::params
+#
+# Default parameters for hubot.
+# Private class
+#
+#
+# === Authors
+#
+# * Justin Lambert <mailto:jlambert@letsevenup.com>
+#
+#
+# === Copyright
+#
+# Copyright 2013 EvenUp.
 #
 class hubot::params {
-  $env_export           = {}
-  $scripts              = []
-  $external_scripts     = []
-  $dependencies         = { 'hubot' => '>= 2.6.0 < 3.0.0', 'hubot-scripts' => '>= 2.5.0 < 3.0.0' }
   $root_dir             = '/opt/hubot'
   $bot_name             = 'hubot'
   $display_name         = 'hubot'
+  $build_deps           = []
+  $env_export           = {}
+  $scripts              = []
+  $external_scripts     = []
   $log_file             = undef
   $adapter              = 'shell'
+  $dependencies         = { 'hubot' => '>= 2.6.0 < 3.0.0', 'hubot-scripts' => '>= 2.5.0 < 3.0.0' }
   $git_source           = undef
   $ssh_privatekey       = undef
   $ssh_privatekey_file  = undef
-  $build_deps           = []
+  $auto_accept_host_key = true
+  $service_ensure       = 'running'
+  $service_enable       = true
 }

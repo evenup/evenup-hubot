@@ -1,5 +1,23 @@
+# == Class: hubot::install
+#
+# Installs hubot
+# Private class
+#
+#
+# === Authors
+#
+# * Justin Lambert <mailto:jlambert@letsevenup.com>
+#
+#
+# === Copyright
+#
+# Copyright 2013 EvenUp.
 #
 class hubot::install {
+
+  if $caller_module_name != $module_name {
+    fail("Use of private class ${name} by ${caller_module_name}")
+  }
 
   group { 'hubot':
     ensure  => 'present',
@@ -11,23 +29,14 @@ class hubot::install {
     comment     => 'Hubot Service User',
     system      => true,
     gid         => 'hubot',
-    home        => $hubot::root_dir,
+    home        => $::hubot::root_dir,
     shell       => '/bin/bash',
     managehome  => true,
     require     => Group['hubot'],
   }
 
-  if $hubot::ssh_pubkey {
-    ssh_authorized_key { 'hubot':
-      ensure  => 'present',
-      user    => 'hubot',
-      key     => $hubot::ssh_pubkey,
-      type    => 'ssh-rsa',
-    }
-  }
-
-  if $hubot::build_deps {
-    package { $hubot::build_deps:
+  if $::hubot::build_deps {
+    package { $::hubot::build_deps:
       ensure  => 'installed',
       before  => [ Package['hubot'], Package['coffee-script'] ]
     }
