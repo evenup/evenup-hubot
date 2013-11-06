@@ -108,7 +108,7 @@
 class hubot (
   $root_dir             = $::hubot::params::root_dir,
   $bot_name             = $::hubot::params::bot_name,
-  $display_name         = $::hubot::params::name,
+  $display_name         = $::hubot::params::display_name,
   $build_deps           = $::hubot::params::build_deps,
   $env_export           = $::hubot::params::env_export,
   $scripts              = $::hubot::params::scripts,
@@ -127,7 +127,7 @@ class hubot (
   if $log_file {
     $log_file_real = $log_file
   } else {
-    $log_file_real = "/var/log/${bot_name}"
+    $log_file_real = "/var/log/${bot_name}.log"
   }
 
   if $adapter == 'shell' {
