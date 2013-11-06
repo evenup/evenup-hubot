@@ -1,0 +1,33 @@
+language: ruby
+bundler_args: --without development
+script: "bundle exec rake spec SPEC_OPTS='--format documentation'"
+rvm:
+  - 1.8.7
+  - 1.9.3
+  - 2.0.0
+script:
+  - "rake lint"
+  - "rake spec SPEC_OPTS='--format documentation'"
+  - "rake syntax"
+env:
+  - PUPPET_VERSION="~> 2.7.0"
+  - PUPPET_VERSION="~> 3.0.0"
+  - PUPPET_VERSION="~> 3.1.0"
+  - PUPPET_VERSION="~> 3.2.0"
+matrix:
+  exclude:
+    - rvm: 1.9.3
+      env: PUPPET_VERSION="~> 2.7.0"
+    - rvm: 2.0.0
+      env: PUPPET_VERSION="~> 2.7.0"
+    - rvm: 2.0.0
+      env: PUPPET_VERSION="~> 3.0.0"
+    - rvm: 2.0.0
+      env: PUPPET_VERSION="~> 3.1.0"
+notifications:
+  email: false
+  hipchat:
+    rooms:
+      - secure: "QkHFNE9oBJXW9SEXHtw+ekvApwxZjdsKAL2O+NEw80raURmw5QB4Na0AGJ98WnWspfiSzS56yLYiC7cQyPA3XQW4RME+kBpOfYLUZ59eOfpguk5XMgWLSKhDTlPGFLiRpqgYXZmOUG2cWpN6qIWbCGxN3gf0/YHmopqdhDq8zkY="
+  on_success: always
+  on_failure: always
