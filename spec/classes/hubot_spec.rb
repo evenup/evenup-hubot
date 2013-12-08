@@ -37,7 +37,7 @@ describe 'hubot', :type => :class do
     context 'via git_source' do
       let(:params) { { :git_source => 'git@git.mycompany.com:hubot.git' } }
 
-      it { should include_class('git') }
+      it { should contain_class('git') }
       it { should contain_file('/opt/hubot/.ssh') }
       it { should contain_file('/opt/hubot/.ssh/id_rsa') }
       it { should contain_file('/opt/hubot/.ssh/config') }
