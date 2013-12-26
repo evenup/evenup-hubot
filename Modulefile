@@ -1,5 +1,5 @@
 name 'evenup-hubot'
-version '0.1.1'
+version '0.1.2'
 author 'Justin Lambert <jlambert@letsevenup.com>'
 license 'Apache'
 summary 'Manages hubot'
