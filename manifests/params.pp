@@ -30,4 +30,15 @@ class hubot::params {
   $auto_accept_host_key = true
   $service_ensure       = 'running'
   $service_enable       = true
+
+  case $::operatingsystem {
+    'Ubuntu': {
+      $hubot_init         = "hubot.init.${::operatingsystem}.erb"
+      $nodejs_manage_repo = true
+    }
+    default: {
+      $hubot_init         = 'hubot.init.erb'
+      $nodejs_manage_repo = false
+    }
+  }
 }

@@ -28,7 +28,7 @@ class hubot::config {
     owner   => 'root',
     group   => 'root',
     mode    => '0555',
-    content => template('hubot/hubot.init.erb'),
+    content => template("hubot/${hubot::params::hubot_init}"),
     notify  => Class['hubot::service']
   }
 
