@@ -7,12 +7,14 @@ describe 'hubot', :type => :class do
   it { should contain_class('hubot::install') }
   it { should contain_class('hubot::config') }
   it { should contain_class('hubot::service') }
+  it { should contain_class('nodejs').with_manage_repo(false) }
 
   describe 'install hubot' do
     it { should contain_group('hubot') }
     it { should contain_user('hubot').with_home('/opt/hubot') }
     it { should contain_package('hubot').with_provider('npm') }
     it { should contain_package('coffee-script').with_provider('npm') }
+    it { should contain_file('/etc/init.d/hubot').with_content %r{^\. /etc/init.d/functions$} }
 
     context 'override root_dir' do
       let(:params) { { :root_dir => '/var/hubot' } }
@@ -30,6 +32,20 @@ describe 'hubot', :type => :class do
       it { should contain_package('dep2') }
     end
   end # install
+
+  describe 'install hubot (Ubuntu)' do
+    let :facts do 
+      { 
+        :operatingsystem => 'Ubuntu',
+        # extra facts to satisfy puppetlabs/nodejs and puppetlabs/apt
+        :osfamily => 'Debian',
+        :lsbdistid => 'Ubuntu',
+        :lsbdistcodename => 'precise',
+      }
+    end
+    it { should contain_class('nodejs').with_manage_repo(true) }
+    it { should contain_file('/etc/init.d/hubot').with_content %r{^\. /lib/lsb/init-functions$} }
+  end #install on Ubungu
 
   context 'configure hubot' do
     it { should contain_file('/etc/init.d/hubot') }
