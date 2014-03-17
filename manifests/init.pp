@@ -141,13 +141,8 @@ class hubot (
     $service_ensure_real = $service_ensure
     $service_enable_real = $service_enable
   }
-  if $::hubot::params::nodejs_manage_repo {
-    class { 'nodejs':
-      manage_repo =>  $::hubot::params::nodejs_manage_repo,
-    }
-  }
-  else {
-    require 'nodejs'
+  class { 'nodejs':
+    manage_repo => $nodejs_manage_repo,
   }
 
   class { 'hubot::install': }
