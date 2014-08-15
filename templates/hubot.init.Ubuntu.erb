@@ -1,0 +1,72 @@
+#!/bin/bash
+
+### BEGIN INIT INFO
+# Provides:          hubot
+# Required-Start:    $all
+# Required-Stop:     $all
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: starts the hubot service
+# Description:       starts the Hubot bot for the ADAPTER service specified
+### END INIT INFO
+
+ROOT_DIR="<%= scope.lookupvar('hubot::root_dir') %>/<%= scope.lookupvar('hubot::bot_name') %>"
+ADAPTER="<%= scope.lookupvar('hubot::adapter') %>"
+LOG_FILE="<%= scope.lookupvar('hubot::log_file_real') %>"
+USER=hubot
+DISPLAY_NAME="<%= scope.lookupvar('hubot::display_name') %>"
+
+HUBOT_BIN="$ROOT_DIR/bin/hubot"
+PIDFILE=/var/run/hubot.pid
+
+test -x $HUBOT_BIN || exit 0
+
+. /lib/lsb/init-functions
+
+# ${ROOT_DIR}/hubot.env contains default settings
+if [ -r ${ROOT_DIR}/hubot.env ]; then
+  . ${ROOT_DIR}/hubot.env
+fi
+
+set -e
+
+start_bot ()
+{
+  start-stop-daemon --start --quiet --chuid $USER --chdir $ROOT_DIR --pidfile $PIDFILE --make-pidfile --background --name hubot --startas $HUBOT_BIN -- $HUBOT_OPTS
+  log_end_msg $?
+}
+
+stop_bot ()
+{
+  start-stop-daemon --stop --quiet --pidfile $PIDFILE
+  STATUS=$?
+  if [ $STATUS == 0 ]; then
+    rm -r $PIDFILE
+  fi
+  log_end_msg $STATUS
+}
+
+status_bot ()
+{
+  if [ -r $PIDFILE ]; then
+    ps -fp `cat /var/run/hubot.pid `
+  else
+    echo "No PIDfile $PIDFILE"
+  fi
+}
+
+case "$1" in
+start)    log_daemon_msg "Starting Hubot - ${DISPLAY_NAME}" "hubot"
+          start_bot
+          ;;
+stop)     log_daemon_msg "Stopping Hubot - ${DISPLAY_NAME}" "hubot"
+          stop_bot
+          ;;
+restart)  log_daemon_msg "Restarting Hubot - ${DISPLAY_NAME}" "hubot"
+          stop_bot
+          start_bot
+          ;;
+status)   log_daemon_msg "Status of Hubot - ${DISPLAY_NAME}" "hubot"
+          status_of_proc -p /var/run/hubot.pid node hubot && exit 0 || exit $?
+          ;;
+esac
