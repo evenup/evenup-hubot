@@ -17,6 +17,7 @@ USER=hubot
 DISPLAY_NAME="<%= scope.lookupvar('hubot::display_name') %>"
 
 HUBOT_BIN="$ROOT_DIR/bin/hubot"
+HUBOT_OPTS="--name ${DISPLAY_NAME} --adapter ${ADAPTER}"
 PIDFILE=/var/run/hubot.pid
 
 test -x $HUBOT_BIN || exit 0

@@ -20,7 +20,7 @@ class hubot::install {
   }
 
   group { 'hubot':
-    ensure  => 'present',
+    ensure  => present,
     system  => true,
   }
 
@@ -35,18 +35,32 @@ class hubot::install {
     require     => Group['hubot'],
   }
 
+  file { $::hubot::root_dir:
+    ensure   => directory,
+    owner    => 'hubot',
+    group    => 'hubot',
+    mode     => '0644',
+    require  => User['hubot'],
+  }
+
   if $::hubot::build_deps {
     package { $::hubot::build_deps:
       ensure  => 'installed',
-      before  => [ Package['hubot'], Package['coffee-script'] ]
     }
   }
 
-  package { ['hubot', 'coffee-script']:
+  $hubot_to_install = $::hubot::hubot_version ? {
+    ''      => 'hubot',
+    default => "hubot@${::hubot::hubot_version}",
+  }
+
+  package { [$hubot_to_install, 'coffee-script']:
     ensure    => 'installed',
-    require   => User['hubot'],
+    require   => [
+                   User['hubot'],
+                   Package[$::hubot::build_deps],
+                 ],
     provider  => 'npm',
     notify    => Class['hubot::config'],
   }
-
 }

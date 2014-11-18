@@ -14,6 +14,7 @@
 # Copyright 2013 EvenUp.
 #
 class hubot::params {
+  $hubot_version        = '2.8.3'
   $root_dir             = '/opt/hubot'
   $bot_name             = 'hubot'
   $display_name         = 'hubot'

@@ -87,6 +87,15 @@ class hubot::config {
       logoutput   => 'on_failure',
     }
 
+    file { "${::hubot::root_dir}/${::hubot::bot_name}/debug.sh":
+      ensure  => 'present',
+      owner   => 'hubot',
+      group   => 'hubot',
+      mode    => '0755',
+      content => template('hubot/debug.sh.erb'),
+      require => Exec['Hubot init'],
+    }
+
     file { "${::hubot::root_dir}/${::hubot::bot_name}/hubot.env":
       ensure  => 'present',
       owner   => 'hubot',
