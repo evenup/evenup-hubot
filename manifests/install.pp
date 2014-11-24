@@ -45,22 +45,28 @@ class hubot::install {
 
   if $::hubot::build_deps {
     package { $::hubot::build_deps:
-      ensure  => 'installed',
+      ensure => 'installed',
     }
   }
 
-  $hubot_to_install = $::hubot::hubot_version ? {
-    ''      => 'hubot',
-    default => "hubot@${::hubot::hubot_version}",
+  $version = $::hubot::hubot_version ? {
+    ''      => 'present',
+    default => $::hubot::hubot_version,
   }
 
-  package { [$hubot_to_install, 'coffee-script']:
-    ensure   => 'installed',
+  package { 'hubot':
+    ensure   => $version,
     require  => [
                   User['hubot'],
+                  Class['nodejs'],
                   Package[$::hubot::build_deps],
     ],
     provider => 'npm',
-    notify   => Class['hubot::config'],
+  }
+
+  package { 'coffee-script':
+    ensure   => present,
+    require  => Package['hubot'],
+    provider => 'npm'
   }
 }
