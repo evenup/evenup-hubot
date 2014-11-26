@@ -44,9 +44,7 @@ class hubot::install {
   }
 
   if $::hubot::build_deps {
-    package { $::hubot::build_deps:
-      ensure => 'installed',
-    }
+    ensure_resource('package', $::hubot::build_deps, { ensure => 'installed' })
   }
 
   $version = $::hubot::hubot_version ? {
@@ -64,9 +62,9 @@ class hubot::install {
     provider => 'npm',
   }
 
-  package { 'coffee-script':
+  ensure_resource('package', 'coffee-script', {
     ensure   => present,
     require  => Package['hubot'],
     provider => 'npm'
-  }
+  })
 }
