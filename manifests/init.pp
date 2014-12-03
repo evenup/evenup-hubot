@@ -109,6 +109,7 @@
 # Copyright 2013 EvenUp.
 #
 class hubot (
+  $hubot_version        = $::hubot::params::hubot_version,
   $root_dir             = $::hubot::params::root_dir,
   $bot_name             = $::hubot::params::bot_name,
   $display_name         = $::hubot::params::display_name,

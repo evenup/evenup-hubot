@@ -20,33 +20,51 @@ class hubot::install {
   }
 
   group { 'hubot':
-    ensure  => 'present',
-    system  => true,
+    ensure => present,
+    system => true,
   }
 
   user { 'hubot':
-    ensure      => present,
-    comment     => 'Hubot Service User',
-    system      => true,
-    gid         => 'hubot',
-    home        => $::hubot::root_dir,
-    shell       => '/bin/bash',
-    managehome  => true,
-    require     => Group['hubot'],
+    ensure     => present,
+    comment    => 'Hubot Service User',
+    system     => true,
+    gid        => 'hubot',
+    home       => $::hubot::root_dir,
+    shell      => '/bin/bash',
+    managehome => true,
+    require    => Group['hubot'],
+  }
+
+  file { $::hubot::root_dir:
+    ensure  => directory,
+    owner   => 'hubot',
+    group   => 'hubot',
+    mode    => '0644',
+    require => User['hubot'],
   }
 
   if $::hubot::build_deps {
-    package { $::hubot::build_deps:
-      ensure  => 'installed',
-      before  => [ Package['hubot'], Package['coffee-script'] ]
-    }
+    ensure_resource('package', $::hubot::build_deps, { ensure => 'installed' })
   }
 
-  package { ['hubot', 'coffee-script']:
-    ensure    => 'installed',
-    require   => User['hubot'],
-    provider  => 'npm',
-    notify    => Class['hubot::config'],
+  $version = $::hubot::hubot_version ? {
+    ''      => 'present',
+    default => $::hubot::hubot_version,
   }
 
+  package { 'hubot':
+    ensure   => $version,
+    require  => [
+                  User['hubot'],
+                  Class['nodejs'],
+                  Package[$::hubot::build_deps],
+    ],
+    provider => 'npm',
+  }
+
+  ensure_resource('package', 'coffee-script', {
+    ensure   => present,
+    require  => Package['hubot'],
+    provider => 'npm'
+  })
 }

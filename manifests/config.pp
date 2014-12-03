@@ -37,10 +37,10 @@ class hubot::config {
 
     if !defined(File["${::hubot::root_dir}/.ssh"]) {
       file { "${::hubot::root_dir}/.ssh":
-        ensure  => 'directory',
-        owner   => 'hubot',
-        group   => 'hubot',
-        mode    => '0700',
+        ensure => 'directory',
+        owner  => 'hubot',
+        group  => 'hubot',
+        mode   => '0700',
       }
     }
 
@@ -68,23 +68,32 @@ class hubot::config {
     # it to this machine.  This assumes you have already accepted any ssh keys
     # and access needed.  Alternatively, most config can be done through puppet
     vcsrepo { "${::hubot::root_dir}/${::hubot::bot_name}":
-      ensure    => latest,
-      provider  => git,
-      source    => $::hubot::git_source,
-      user      => 'hubot',
-      revision  => 'master',
-      notify    => Class['hubot::service'],
+      ensure   => latest,
+      provider => git,
+      source   => $::hubot::git_source,
+      user     => 'hubot',
+      revision => 'master',
+      notify   => Class['hubot::service'],
     }
 
   } else {
     exec { 'Hubot init':
-      command     => "hubot -c ${::hubot::bot_name}",
-      cwd         => $::hubot::root_dir,
-      path        => '/usr/bin',
-      unless      => "test -d ${::hubot::root_dir}/${::hubot::bot_name}",
-      user        => 'hubot',
-      group       => 'hubot',
-      logoutput   => 'on_failure',
+      command   => "hubot -c ${::hubot::bot_name}",
+      cwd       => $::hubot::root_dir,
+      path      => '/usr/bin',
+      unless    => "test -d ${::hubot::root_dir}/${::hubot::bot_name}",
+      user      => 'hubot',
+      group     => 'hubot',
+      logoutput => 'on_failure',
+    }
+
+    file { "${::hubot::root_dir}/${::hubot::bot_name}/debug.sh":
+      ensure  => 'present',
+      owner   => 'hubot',
+      group   => 'hubot',
+      mode    => '0755',
+      content => template('hubot/debug.sh.erb'),
+      require => Exec['Hubot init'],
     }
 
     file { "${::hubot::root_dir}/${::hubot::bot_name}/hubot.env":

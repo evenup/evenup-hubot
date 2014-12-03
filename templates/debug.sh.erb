@@ -1,0 +1,23 @@
+#!/bin/bash
+
+set -o xtrace
+export HUBOT_LOG_LEVEL="debug"
+
+# Path to Hubot installation
+export HUBOT_DIR="<%= scope.lookupvar('hubot::root_dir') %>/<%= scope.lookupvar('hubot::bot_name') %>"
+export ADAPTER="<%= scope.lookupvar('hubot::adapter') %>"
+export HUBOT='bin/hubot'
+export HUBOT_USER='hubot' # system account
+export HUBOT_NAME="<%= scope.lookupvar('hubot::display_name') %>" # what hubot listens to
+
+# ${HUBOT_DIR}/hubot.env contains default settings
+if [ -r ${HUBOT_DIR}/hubot.env ]; then
+  . ${HUBOT_DIR}/hubot.env
+fi
+
+if [ "$ADAPTER" != '' ]; then
+  ADAPTER="--adapter ${ADAPTER}"
+fi
+
+${HUBOT_DIR}/${HUBOT} --name ${HUBOT_NAME} ${ADAPTER}
+set +o xtrace

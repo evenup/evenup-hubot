@@ -31,7 +31,7 @@ startHubot() {
 }
 
 stopHubot() {
-	echo -n $"Stopping hubot (${DISPLAY_NAME}): "
+  echo -n $"Stopping hubot (${DISPLAY_NAME}): "
   PID=`cat ${PIDFILE}`
   if [ -f $PIDFILE ]; then
     kill $PID
@@ -44,7 +44,7 @@ stopHubot() {
 }
 
 hubotStatus() {
-	echo -n $"Status hubot (${DISPLAY_NAME}): "
+  echo -n $"Status hubot (${DISPLAY_NAME}): "
   if [ -f $PIDFILE ]; then
     PID=`cat ${PIDFILE}`
     if [ -z "`ps axf | grep ${PID} | grep -v grep`" ]; then
