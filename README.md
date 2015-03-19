@@ -41,7 +41,7 @@ Getting up and running:
 
     class { 'hubot':
       git_source          => 'git@git.mycompany.com:hubot',
-      ssh_privatekey_file => 'puppet:///data/ssh/hubot_id_rsa,
+      ssh_privatekey_file => 'puppet:///data/ssh/hubot_id_rsa',
      }
 
 Build dependencies
