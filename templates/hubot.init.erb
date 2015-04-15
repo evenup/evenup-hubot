@@ -14,11 +14,12 @@ ADAPTER="<%= scope.lookupvar('hubot::adapter') %>"
 LOG_FILE="<%= scope.lookupvar('hubot::log_file_real') %>"
 USER=hubot
 DISPLAY_NAME="<%= scope.lookupvar('hubot::display_name') %>"
+ALIAS="<%= scope.lookupvar('hubot::chat_alias') %>"
 PIDFILE=/var/run/hubot.pid
 
 startHubot() {
   echo -n $"Starting hubot (${DISPLAY_NAME}): "
-  runuser -l $USER -c "source ${ROOT_DIR}/hubot.env && cd ${ROOT_DIR}; ${DAEMON} -a ${ADAPTER} -n \"${DISPLAY_NAME}\"" >> $LOG_FILE 2>&1 &
+  runuser -l $USER -c "source ${ROOT_DIR}/hubot.env && cd ${ROOT_DIR}; ${DAEMON} -a ${ADAPTER} -n \"${DISPLAY_NAME}\" --alias \"${ALIAS}\"" >> $LOG_FILE 2>&1 &
   sleep 3
   PID=$(ps aux | grep node | head -1 | awk '{print $2}')
 
