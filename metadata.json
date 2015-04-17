@@ -1,6 +1,6 @@
 {
   "name": "evenup-hubot",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "author": "Justin Lambert <jlambert@letsevenup.com>",
   "license": "Apache-2.0",
   "summary": "Installs, configures, and runs a hubot bot by configuring all parameters or as config from a git repo",
