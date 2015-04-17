@@ -1,3 +1,6 @@
+20140417 - v0.2.0
+  Add hubot alias command
+  Update nodejs module requirements
 20131226 - v0.1.2
   Fix for empty external-scripts and hubot-scripts
 20131005 - v0.1.1
