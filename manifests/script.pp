@@ -34,7 +34,7 @@ define hubot::script(
   $script_name = undef,
 ) {
 
-  include hubot
+  include ::hubot
 
   if $::hubot::git_source {
     fail ('hubot::script cannot be used with git_source')
