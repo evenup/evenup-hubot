@@ -1,7 +1,8 @@
 require 'spec_helper'
 
 describe 'hubot::script', :type => :define do
-  let(:facts) { { :operatingsystem => 'RedHat' } }
+  let(:facts) { { :operatingsystem => 'RedHat', :osfamily => 'RedHat', :operatingsystemrelease => '7.0' } }
+  let(:pre_condition) { "class nodejs ( $manage_package_repo = false) {}" }
   let(:title) { 'myscript.coffee' }
   let(:params) { { :source => 'puppet:///data/hubot/myscript.coffee' } }
 

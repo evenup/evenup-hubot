@@ -1,13 +1,14 @@
 require 'spec_helper'
 
 describe 'hubot', :type => :class do
-  let(:facts) { { :operatingsystem => 'RedHat' } }
+  let(:facts) { { :operatingsystem => 'RedHat', :osfamily => 'RedHat', :operatingsystemrelease => '7.0' } }
+  let(:pre_condition) { "class nodejs ( $manage_package_repo = false) {}" }
 
   it { should create_class('hubot') }
   it { should contain_class('hubot::install') }
   it { should contain_class('hubot::config') }
   it { should contain_class('hubot::service') }
-  it { should contain_class('nodejs').with_manage_repo(false) }
+  it { should contain_class('nodejs').with_manage_package_repo(false) }
 
   describe 'install hubot' do
     it { should contain_group('hubot') }
@@ -34,8 +35,8 @@ describe 'hubot', :type => :class do
   end # install
 
   describe 'install hubot (Ubuntu)' do
-    let :facts do 
-      { 
+    let :facts do
+      {
         :operatingsystem => 'Ubuntu',
         # extra facts to satisfy puppetlabs/nodejs and puppetlabs/apt
         :osfamily => 'Debian',
@@ -43,7 +44,7 @@ describe 'hubot', :type => :class do
         :lsbdistcodename => 'precise',
       }
     end
-    it { should contain_class('nodejs').with_manage_repo(true) }
+    it { should contain_class('nodejs').with_manage_package_repo(true) }
     it { should contain_file('/etc/init.d/hubot').with_content %r{^\. /lib/lsb/init-functions$} }
   end #install on Ubungu
 

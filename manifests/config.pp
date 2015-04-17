@@ -24,12 +24,12 @@ class hubot::config {
   $external_scripts = $::hubot::external_scripts
   $dependencies = $::hubot::dependencies
   file { '/etc/init.d/hubot':
-    ensure  => 'present',
+    ensure  => 'file',
     owner   => 'root',
     group   => 'root',
     mode    => '0555',
     content => template("hubot/${hubot::params::hubot_init}"),
-    notify  => Class['hubot::service']
+    notify  => Class['hubot::service'],
   }
 
   if $::hubot::git_source {
@@ -88,7 +88,7 @@ class hubot::config {
     }
 
     file { "${::hubot::root_dir}/${::hubot::bot_name}/debug.sh":
-      ensure  => 'present',
+      ensure  => 'file',
       owner   => 'hubot',
       group   => 'hubot',
       mode    => '0755',
@@ -97,7 +97,7 @@ class hubot::config {
     }
 
     file { "${::hubot::root_dir}/${::hubot::bot_name}/hubot.env":
-      ensure  => 'present',
+      ensure  => 'file',
       owner   => 'hubot',
       group   => 'hubot',
       mode    => '0440',
@@ -107,7 +107,7 @@ class hubot::config {
     }
 
     file { "${::hubot::root_dir}/${::hubot::bot_name}/hubot-scripts.json":
-      ensure  => 'present',
+      ensure  => 'file',
       owner   => 'hubot',
       group   => 'hubot',
       mode    => '0444',
@@ -117,7 +117,7 @@ class hubot::config {
     }
 
     file { "${::hubot::root_dir}/${::hubot::bot_name}/external-scripts.json":
-      ensure  => 'present',
+      ensure  => 'file',
       owner   => 'hubot',
       group   => 'hubot',
       mode    => '0444',
@@ -127,7 +127,7 @@ class hubot::config {
     }
 
     file { "${::hubot::root_dir}/${::hubot::bot_name}/package.json":
-      ensure  => 'present',
+      ensure  => 'file',
       owner   => 'hubot',
       group   => 'hubot',
       mode    => '0444',

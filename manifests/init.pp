@@ -142,13 +142,13 @@ class hubot (
     $service_ensure_real = $service_ensure
     $service_enable_real = $service_enable
   }
-  class { 'nodejs':
-    manage_repo => $nodejs_manage_repo,
+  class { '::nodejs':
+    manage_package_repo => $nodejs_manage_repo,
   }
 
-  class { 'hubot::install': }
-  class { 'hubot::config': }
-  class { 'hubot::service': }
+  class { '::hubot::install': }
+  class { '::hubot::config': }
+  class { '::hubot::service': }
 
   # Containment
   anchor { 'hubot::begin': } ->

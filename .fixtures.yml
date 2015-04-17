@@ -1,7 +1,7 @@
 fixtures:
   repositories:
     git: https://github.com/puppetlabs/puppetlabs-git.git
-    nodejs: https://github.com/puppetlabs/puppetlabs-nodejs.git
+#    nodejs: https://github.com/puppetlabs/puppetlabs-nodejs.git
     stdlib: https://github.com/puppetlabs/puppetlabs-stdlib.git
     vcsrepo: https://github.com/puppetlabs/puppetlabs-vcsrepo.git
     apt: https://github.com/puppetlabs/puppetlabs-apt.git
