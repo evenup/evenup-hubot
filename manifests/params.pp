@@ -18,6 +18,7 @@ class hubot::params {
   $root_dir             = '/opt/hubot'
   $bot_name             = 'hubot'
   $display_name         = 'hubot'
+  $chat_alias           = '/'
   $build_deps           = []
   $env_export           = {}
   $scripts              = []

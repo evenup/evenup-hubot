@@ -19,6 +19,10 @@
 #   String.  The name this bot should present itself to users as
 #   Default: hubot
 #
+# [*chat_alias*]
+#   String.  A short name the bot will respond to in addition to bot name
+#   Default: /
+#
 # [*build_deps*]
 #   String/Array of Strings.  Any additional packages that should be installed to
 #     support building npm, nodejs, or any npm modules from 'npm install'
@@ -113,6 +117,7 @@ class hubot (
   $root_dir             = $::hubot::params::root_dir,
   $bot_name             = $::hubot::params::bot_name,
   $display_name         = $::hubot::params::display_name,
+  $chat_alias           = $::hubot::params::chat_alias,
   $build_deps           = $::hubot::params::build_deps,
   $env_export           = $::hubot::params::env_export,
   $scripts              = $::hubot::params::scripts,

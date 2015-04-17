@@ -15,9 +15,10 @@ ADAPTER="<%= scope.lookupvar('hubot::adapter') %>"
 LOG_FILE="<%= scope.lookupvar('hubot::log_file_real') %>"
 USER=hubot
 DISPLAY_NAME="<%= scope.lookupvar('hubot::display_name') %>"
+ALIAS="<%= scope.lookupvar('hubot::chat_alias') %>"
 
 HUBOT_BIN="$ROOT_DIR/bin/hubot"
-HUBOT_OPTS="--name ${DISPLAY_NAME} --adapter ${ADAPTER}"
+HUBOT_OPTS="--name ${DISPLAY_NAME} --adapter ${ADAPTER} --alias ${ALIAS}"
 PIDFILE=/var/run/hubot.pid
 
 test -x $HUBOT_BIN || exit 0
