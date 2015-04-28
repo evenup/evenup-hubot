@@ -10,6 +10,11 @@ describe 'hubot', :type => :class do
   it { should contain_class('hubot::service') }
   it { should contain_class('nodejs').with_manage_package_repo(false) }
 
+  describe 'without nodejs' do
+    let(:params) { { :install_nodejs => false } }
+  it { should_not contain_class('nodejs') }
+  end
+
   describe 'install hubot' do
     it { should contain_group('hubot') }
     it { should contain_user('hubot').with_home('/opt/hubot') }
