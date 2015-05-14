@@ -1,3 +1,4 @@
+  Allow not installing nodejs
 20140417 - v0.2.0
   Add hubot alias command
   Update nodejs module requirements

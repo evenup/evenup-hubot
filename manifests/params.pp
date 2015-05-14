@@ -32,6 +32,7 @@ class hubot::params {
   $auto_accept_host_key = true
   $service_ensure       = 'running'
   $service_enable       = true
+  $install_nodejs       = true
 
   case $::operatingsystem {
     'Ubuntu': {
