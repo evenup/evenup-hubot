@@ -61,6 +61,7 @@ class hubot::config {
         group   => 'hubot',
         mode    => '0440',
         content => "Host *\n\tStrictHostKeyChecking no\n",
+        before  => Vcsrepo["${::hubot::root_dir}/${::hubot::bot_name}"],
       }
     }
 
