@@ -35,7 +35,7 @@ class hubot::params {
   $install_nodejs       = true
 
   case $::operatingsystem {
-    'Ubuntu': {
+    /Ubuntu|Debian/: {
       $hubot_init         = "hubot.init.${::operatingsystem}.erb"
       $nodejs_manage_repo = true
     }
