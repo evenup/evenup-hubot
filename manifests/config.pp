@@ -76,6 +76,18 @@ class hubot::config {
       revision => 'master',
       notify   => Class['hubot::service'],
     }
+    
+    unless empty($::hubot::env_export) {
+      file { "${::hubot::root_dir}/${::hubot::bot_name}/hubot.env":
+        ensure  => 'file',
+        owner   => 'hubot',
+        group   => 'hubot',
+        mode    => '0440',
+        content => template('hubot/hubot.env.erb'),
+        notify  => Class['hubot::service'],
+        require => Vcsrepo["${::hubot::root_dir}/${::hubot::bot_name}"],
+      }
+    }
 
   } else {
     exec { 'Hubot init':

@@ -87,6 +87,11 @@ describe 'hubot', :type => :class do
         let(:params) { { :git_source => 'git@git.mycompany.com:hubot.git', :bot_name => 'foobot' } }
         it { should contain_vcsrepo('/opt/hubot/foobot') }
       end
+
+      context 'specify environment variables' do
+        let(:params) { { :env_export => { 'test1' => 'test value 1' } } }
+        it { should contain_file('/opt/hubot/hubot/hubot.env') }
+      end
     end # git_source
 
     context 'no git_source' do
