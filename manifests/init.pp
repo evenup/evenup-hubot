@@ -152,6 +152,7 @@ class hubot (
   if $install_nodejs {
     class { '::nodejs':
       manage_package_repo => $nodejs_manage_repo,
+      before              => Package['hubot'],
     }
   }
 

@@ -56,7 +56,6 @@ class hubot::install {
     ensure   => $version,
     require  => [
                   User['hubot'],
-                  Class['nodejs'],
                   Package[$::hubot::build_deps],
     ],
     provider => 'npm',
