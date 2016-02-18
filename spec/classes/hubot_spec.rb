@@ -49,7 +49,7 @@ describe 'hubot', :type => :class do
         :lsbdistcodename => 'precise',
       }
     end
-    it { should contain_class('nodejs').with_manage_package_repo(true) }
+    it { should contain_class('nodejs').with_manage_package_repo(true).that_comes_before('Package[hubot]') }
     it { should contain_file('/etc/init.d/hubot').with_content %r{^\. /lib/lsb/init-functions$} }
   end #install on Ubungu
 
